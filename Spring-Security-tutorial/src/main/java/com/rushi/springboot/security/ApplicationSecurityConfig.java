@@ -1,5 +1,7 @@
 package com.rushi.springboot.security;
 
+import static com.rushi.springboot.security.ApplicationUserRole.ADMIN;
+import static com.rushi.springboot.security.ApplicationUserRole.STUDENT;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 
@@ -33,7 +35,8 @@ public class ApplicationSecurityConfig {
             		
             		.requestMatchers("/","index.html","/css/*","/js/*")// allowed without autheneti-cations
             		.permitAll()
-                    .anyRequest()
+            		.requestMatchers("/api/**").hasRole(STUDENT.name()) // has only access to Student
+            		.anyRequest()
                     .authenticated())
             .httpBasic(withDefaults());
 	
@@ -46,10 +49,19 @@ public class ApplicationSecurityConfig {
     	UserDetails renugundreUser = User.builder()
     	.username("renugundre")
     	.password(passwordEncoder.encode("password"))
-    	.roles("STUDENT")  // role_student
+    	.roles(STUDENT.name())  // role_student
     	.build();
+    	
+    	UserDetails rushimithagare = User.builder()
+    			.username("rushimithagare")
+    			.password(passwordEncoder.encode("rushi@1"))
+    			.roles(ADMIN.name())
+    			.build();
 	
-    	return new InMemoryUserDetailsManager(renugundreUser);
+    	return new InMemoryUserDetailsManager(
+    			renugundreUser,
+    			rushimithagare
+    			);
     	
     }
 	
