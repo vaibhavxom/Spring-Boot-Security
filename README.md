@@ -10,3 +10,5 @@ updated pom.xml
 package added 
         Security.ApplicationUserRole
         Security.ApplicationUserPermission
+
+COURSE_READ                                // Static Import Using CTRL+SHIFT+M   from ApplicationUserPermission
